@@ -1,7 +1,12 @@
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const packageMetadata = require("../package.json");
 const DEFAULT_MCP_URL = "https://getcoldagent.com/api/mcp";
 const DEFAULT_PROTOCOL_VERSION = "2025-11-25";
 const DEFAULT_TIMEOUT_MS = 60000;
 const MAX_ERROR_BODY_LENGTH = 500;
+const PACKAGE_USER_AGENT = `${packageMetadata.name}/${packageMetadata.version}`;
 
 export function readConfig(env = process.env) {
   const apiKey = (env.COLD_AGENT_API_KEY || "").trim();
@@ -119,7 +124,7 @@ async function postToRemote(rawLine, payload, config, fetchImpl) {
       Accept: "application/json, text/event-stream",
       Authorization: `Bearer ${config.apiKey}`,
       "Content-Type": "application/json",
-      "User-Agent": "@razroo/cold-agent-mcp/0.1.1",
+      "User-Agent": PACKAGE_USER_AGENT,
     };
 
     if (config.protocolVersion) {

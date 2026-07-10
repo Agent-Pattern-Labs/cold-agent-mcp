@@ -10,13 +10,30 @@ https://getcoldagent.com/api/mcp
 
 Use this package when your MCP client prefers a local stdio command instead of a remote Streamable HTTP server.
 
+The bridge discovers tools from the hosted server at runtime. New Cold Agent
+tools become available without duplicating business logic in this package.
+
 ## Requirements
 
 - Node.js 18 or newer
-- A paid Cold Agent workspace
+- A paid or trialing Cold Agent workspace
 - A Cold Agent API key from [Settings > API Keys](https://getcoldagent.com/settings/api-keys)
 
-## Install
+## Recommended: Direct Hosted Connection
+
+Clients with Streamable HTTP support can connect directly and skip the local
+bridge. For Codex, keep the token in an environment variable and run:
+
+```bash
+export COLD_AGENT_API_KEY=YOUR_COLD_AGENT_API_KEY
+codex mcp add cold-agent \
+  --url https://getcoldagent.com/api/mcp \
+  --bearer-token-env-var COLD_AGENT_API_KEY
+```
+
+The stdio package remains useful for clients that only support local commands.
+
+## Stdio Bridge Install
 
 Replace `YOUR_COLD_AGENT_API_KEY` with a key from [Cold Agent Settings > API Keys](https://getcoldagent.com/settings/api-keys).
 
@@ -26,7 +43,7 @@ Replace `YOUR_COLD_AGENT_API_KEY` with a key from [Cold Agent Settings > API Key
 **One-line install:**
 
 ```bash
-claude mcp add -e COLD_AGENT_API_KEY=YOUR_COLD_AGENT_API_KEY cold-agent -- npx -y @razroo/cold-agent-mcp
+claude mcp add -e COLD_AGENT_API_KEY=YOUR_COLD_AGENT_API_KEY cold-agent -- npx -y @agent-pattern-labs/cold-agent-mcp
 ```
 
 **Uninstall:**
@@ -42,7 +59,7 @@ Or manually add to `.mcp.json` (project-level) or `~/.claude/settings.json` (glo
   "mcpServers": {
     "cold-agent": {
       "command": "npx",
-      "args": ["-y", "@razroo/cold-agent-mcp"],
+      "args": ["-y", "@agent-pattern-labs/cold-agent-mcp"],
       "env": {
         "COLD_AGENT_API_KEY": "YOUR_COLD_AGENT_API_KEY"
       }
@@ -65,7 +82,7 @@ Add to your Claude Desktop MCP config:
   "mcpServers": {
     "cold-agent": {
       "command": "npx",
-      "args": ["-y", "@razroo/cold-agent-mcp"],
+      "args": ["-y", "@agent-pattern-labs/cold-agent-mcp"],
       "env": {
         "COLD_AGENT_API_KEY": "YOUR_COLD_AGENT_API_KEY"
       }
@@ -84,7 +101,7 @@ To uninstall, remove the `cold-agent` entry from the config file.
 **One-line install:**
 
 ```bash
-codex mcp add cold-agent --env COLD_AGENT_API_KEY=YOUR_COLD_AGENT_API_KEY -- npx -y @razroo/cold-agent-mcp
+codex mcp add cold-agent --env COLD_AGENT_API_KEY=YOUR_COLD_AGENT_API_KEY -- npx -y @agent-pattern-labs/cold-agent-mcp
 ```
 
 **Uninstall:**
@@ -98,7 +115,7 @@ Or manually add to `~/.codex/config.toml`:
 ```toml
 [mcp_servers.cold-agent]
 command = "npx"
-args = ["-y", "@razroo/cold-agent-mcp"]
+args = ["-y", "@agent-pattern-labs/cold-agent-mcp"]
 
 [mcp_servers.cold-agent.env]
 COLD_AGENT_API_KEY = "YOUR_COLD_AGENT_API_KEY"
@@ -119,7 +136,7 @@ Add to `opencode.json` in your project root or `~/.config/opencode/opencode.json
   "mcp": {
     "cold-agent": {
       "type": "local",
-      "command": ["npx", "-y", "@razroo/cold-agent-mcp"],
+      "command": ["npx", "-y", "@agent-pattern-labs/cold-agent-mcp"],
       "enabled": true,
       "environment": {
         "COLD_AGENT_API_KEY": "YOUR_COLD_AGENT_API_KEY"
@@ -143,7 +160,7 @@ Open Settings -> MCP -> Add new MCP server, or add to `~/.cursor/mcp.json` or `.
   "mcpServers": {
     "cold-agent": {
       "command": "npx",
-      "args": ["-y", "@razroo/cold-agent-mcp"],
+      "args": ["-y", "@agent-pattern-labs/cold-agent-mcp"],
       "env": {
         "COLD_AGENT_API_KEY": "YOUR_COLD_AGENT_API_KEY"
       }
@@ -166,7 +183,7 @@ Add to `~/.codeium/windsurf/mcp_config.json`:
   "mcpServers": {
     "cold-agent": {
       "command": "npx",
-      "args": ["-y", "@razroo/cold-agent-mcp"],
+      "args": ["-y", "@agent-pattern-labs/cold-agent-mcp"],
       "env": {
         "COLD_AGENT_API_KEY": "YOUR_COLD_AGENT_API_KEY"
       }
@@ -185,7 +202,7 @@ To uninstall, remove the entry from the config file.
 **One-line install:**
 
 ```bash
-code --add-mcp '{"name":"cold-agent","command":"npx","args":["-y","@razroo/cold-agent-mcp"],"env":{"COLD_AGENT_API_KEY":"YOUR_COLD_AGENT_API_KEY"}}'
+code --add-mcp '{"name":"cold-agent","command":"npx","args":["-y","@agent-pattern-labs/cold-agent-mcp"],"env":{"COLD_AGENT_API_KEY":"YOUR_COLD_AGENT_API_KEY"}}'
 ```
 
 Or add to `.vscode/mcp.json`:
@@ -195,7 +212,7 @@ Or add to `.vscode/mcp.json`:
   "servers": {
     "cold-agent": {
       "command": "npx",
-      "args": ["-y", "@razroo/cold-agent-mcp"],
+      "args": ["-y", "@agent-pattern-labs/cold-agent-mcp"],
       "env": {
         "COLD_AGENT_API_KEY": "YOUR_COLD_AGENT_API_KEY"
       }
@@ -216,7 +233,7 @@ Any MCP client that supports stdio transport can use Cold Agent. The server conf
 ```json
 {
   "command": "npx",
-  "args": ["-y", "@razroo/cold-agent-mcp"],
+  "args": ["-y", "@agent-pattern-labs/cold-agent-mcp"],
   "env": {
     "COLD_AGENT_API_KEY": "YOUR_COLD_AGENT_API_KEY"
   }
@@ -235,6 +252,31 @@ To uninstall, remove the server entry from your client's MCP configuration.
 | `COLD_AGENT_MCP_URL` | No | `https://getcoldagent.com/api/mcp` | Hosted MCP endpoint override. |
 | `COLD_AGENT_MCP_TIMEOUT_MS` | No | `60000` | Per-request timeout. |
 | `COLD_AGENT_MCP_PROTOCOL_VERSION` | No | `2025-11-25` | MCP protocol version header override. |
+
+## Current Hosted Capabilities
+
+The hosted server currently exposes 35 tenant-scoped tools. They are discovered
+dynamically by this bridge and cover:
+
+- natural-language guidance through `ask_cold_agent`, which returns recommendations and proposed actions without executing them
+- workspace, campaign, sender, domain, deliverability, reply, and meeting context
+- sending-domain verification and sender preparation for SES and Smartlead
+- Gmail and Outlook placement seed tests plus Smartlead warmup controls
+- campaign drafting, launch, pause, and resume operations with existing approval and deliverability gates
+- lead sourcing, verification, Lead Desk assignment/activity workflows, and integration setup
+- managed Twilio number search, purchase confirmation, voice settings, and click-to-call
+
+Google Workspace and Microsoft 365 mailbox authorization still happens in the
+Cold Agent Domains UI because provider approval is interactive. Once connected,
+reply/NDR monitoring and token maintenance run automatically in the hosted app;
+they are not separate local proxy features.
+
+## Package Scope Migration
+
+`@agent-pattern-labs/cold-agent-mcp` replaces the legacy
+`@razroo/cold-agent-mcp` package. Update existing stdio client configurations to
+the new package name. The hosted endpoint and `COLD_AGENT_API_KEY` remain the
+same.
 
 ## Phone And Voice Tools
 
@@ -281,9 +323,19 @@ It does not contain Cold Agent business logic and does not store credentials.
 npm test
 ```
 
+With a dedicated paid/trialing workspace API key, verify the current hosted
+read-only protocol and tool catalog contract:
+
+```bash
+COLD_AGENT_API_KEY=YOUR_COLD_AGENT_API_KEY npm run test:hosted
+```
+
 ## Publishing
 
-The GitHub Actions publish workflow expects an `NPM_TOKEN` repository secret.
+The GitHub Actions publish workflow expects an `NPM_TOKEN` Actions secret with
+publish access to the `@agent-pattern-labs` npm scope.
+An optional `COLD_AGENT_CONTRACT_API_KEY` secret enables a read-only hosted
+`initialize` and `tools/list` contract check in CI and before publishing.
 
 Dry-run from the GitHub CLI:
 
@@ -294,7 +346,9 @@ gh workflow run publish.yml --ref main -f dry_run=true -f tag=latest
 Publish the version in `package.json`:
 
 ```bash
-gh workflow run publish.yml --ref main -f dry_run=false -f tag=latest
+gh workflow run publish.yml --ref main \
+  -f dry_run=false \
+  -f tag=latest
 ```
 
-<!-- mcp-name: io.github.razroo/cold-agent-mcp -->
+<!-- mcp-name: io.github.Agent-Pattern-Labs/cold-agent-mcp -->

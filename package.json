@@ -1,10 +1,10 @@
 {
-  "name": "@razroo/cold-agent-mcp",
-  "version": "0.1.1",
-  "description": "Stdio bridge for the hosted Cold Agent MCP server, including sales, deliverability, and phone workflows.",
+  "name": "@agent-pattern-labs/cold-agent-mcp",
+  "version": "0.1.2",
+  "description": "Stdio bridge for the hosted Cold Agent MCP server, including natural-language sales, deliverability, lead, and phone workflows.",
   "type": "module",
   "license": "MIT",
-  "mcpName": "io.github.razroo/cold-agent-mcp",
+  "mcpName": "io.github.Agent-Pattern-Labs/cold-agent-mcp",
   "bin": {
     "cold-agent-mcp": "bin/cold-agent-mcp.js"
   },
@@ -19,8 +19,9 @@
     "server.json"
   ],
   "scripts": {
-    "check": "node --check bin/cold-agent-mcp.js && node --check src/proxy.js && node --check test/proxy.test.js",
-    "test": "node --test"
+    "check": "node --check bin/cold-agent-mcp.js && node --check src/proxy.js && node --check scripts/verify-hosted-contract.js && node --check scripts/verify-metadata.js && node --check test/proxy.test.js && node scripts/verify-metadata.js",
+    "test": "node --test",
+    "test:hosted": "node scripts/verify-hosted-contract.js"
   },
   "engines": {
     "node": ">=18"
@@ -36,10 +37,10 @@
   "homepage": "https://getcoldagent.com/mcp",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/razroo/cold-agent-mcp.git"
+    "url": "git+https://github.com/Agent-Pattern-Labs/cold-agent-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/razroo/cold-agent-mcp/issues"
+    "url": "https://github.com/Agent-Pattern-Labs/cold-agent-mcp/issues"
   },
   "publishConfig": {
     "access": "public"

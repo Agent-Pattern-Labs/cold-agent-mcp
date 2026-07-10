@@ -46,6 +46,10 @@ test("forwardLine posts JSON-RPC to the hosted endpoint with auth headers", asyn
   assert.equal(request.init.method, "POST");
   assert.equal(request.init.headers.Authorization, "Bearer ca_secret");
   assert.equal(request.init.headers["Mcp-Method"], "initialize");
+  assert.equal(
+    request.init.headers["User-Agent"],
+    "@agent-pattern-labs/cold-agent-mcp/0.1.2",
+  );
   assert.equal(config.sessionId, "session-1");
   assert.equal(output.text, `${JSON.stringify(responseBody)}\n`);
   assert.equal(error.text, "");

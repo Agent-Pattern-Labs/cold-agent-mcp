@@ -27,6 +27,15 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - run: npm run check
       - run: npm test
+      - name: Verify hosted MCP contract
+        env:
+          COLD_AGENT_API_KEY: ${{ secrets.COLD_AGENT_CONTRACT_API_KEY }}
+        run: |
+          if [[ -n "$COLD_AGENT_API_KEY" ]]; then
+            npm run test:hosted
+          else
+            echo "Hosted contract check skipped: COLD_AGENT_CONTRACT_API_KEY is not configured."
+          fi
       - name: Publish package
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
